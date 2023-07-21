@@ -1,0 +1,40 @@
+.navbarContainer {
+  display: block;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding: 0;
+  color: #cacaca;
+  & .navbarTitle {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    left: 0;
+    width: 100%;
+  }
+  & .options {
+    margin: 0;
+    & ul {
+      display: flex;
+      list-style: none;
+      justify-content: space-evenly;
+    }
+    & li {
+      cursor: pointer;
+      transition: 1s ease;
+    }
+  }
+}
+.selected {
+  color: #0077b6;
+  text-decoration: underline;
+  text-decoration-color: #0077b6;
+}
+
+.unselected {
+  color: #cacaca;
+  text-decoration: none;
+}
