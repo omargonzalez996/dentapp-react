@@ -1,9 +1,6 @@
-import React from 'react'
-
+import React from "react";
 function Home() {
-  return (
-    <div className='mainContainerHome'>Home</div>
-  )
+  return <div className="mainContainerHome">home</div>;
 }
 
-export default Home
+export default Home;
