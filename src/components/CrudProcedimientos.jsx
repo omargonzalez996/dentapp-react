@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { getProcedimientos } from "../api/ProcCrud";
-import { useTable } from "react-table";
 import { Icon } from "@iconify/react";
+import Tabla from "./Tabla";
+import ModalProc from "./ModalProc";
 
 function CrudProcedimientos() {
   const [loading, setLoading] = useState(false);
   const [procs, setProcs] = useState([]);
-  let data = [];
+  const [modalAdd, setModalAdd] = useState(false);
+  const [modo, setModo] = useState("add");
+  let longitude = 0;
 
   const FetchData = async () => {
     try {
       setLoading(true);
       let data = await getProcedimientos();
-      console.log(data);
+      setProcs(data);
       setLoading(false);
-      return data;
     } catch (error) {
+      setProcs([]);
       console.log(error);
       setLoading(false);
-      return error;
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    setProcs(FetchData());
+    FetchData();
   }, []);
 
   useEffect(() => {
-    console.log(procs);
-    data = React.useMemo(() => procs, []);
+    longitude = procs.length;
+    console.log(procs, longitude);
   }, [procs]);
 
   const columns = React.useMemo(
@@ -54,7 +57,7 @@ function CrudProcedimientos() {
         accessor: "customColumn",
         Cell: ({ row }) => (
           <div className="buttonCol">
-            <button onClick={() => console.log(row.values)}>
+            <button onClick={(e) => abrirModalEdit(e, row.values)}>
               <Icon
                 icon="material-symbols:edit"
                 color="white"
@@ -69,68 +72,61 @@ function CrudProcedimientos() {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const abrirModalAdd = (e) => {
+    e.preventDefault();
+    setModo("add");
+    setModalAdd(true);
+  };
+
+  const abrirModalEdit = (e, values) => {
+    e.preventDefault();
+    setModo("add");
+    setModalAdd(true);
+  };
 
   return (
-    <div className="crudProcMainCont">
-      <div className="table-head">
-        <button>
-          <Icon icon="carbon:add-filled" color="white" width="10" height="10" />
-          <p>Agregar</p>
-        </button>
-      </div>
-      {loading ? (
-        <div className="loading-cont">
-          <Icon
-            icon="eos-icons:three-dots-loading"
-            color="white"
-            width="10"
-            height="10"
-          />
-        </div>
-      ) : procs.length != 0 ? (
-        <div className="no-data-cont">
-          <div className="no-data-info">
+    <>
+      <div className="crudProcMainCont">
+        <div className="table-head">
+          <button onClick={(e) => abrirModalAdd(e)}>
             <Icon
-              icon="icomoon-free:file-empty"
-              color="#cacaca"
-              width="50"
-              height="50"
+              icon="carbon:add-filled"
+              color="white"
+              width="15"
+              height="15"
             />
-            <div>no hay datos</div>
-          </div>
+            <p>Agregar</p>
+          </button>
         </div>
-      ) : (
         <div className="table-cont">
-          <table {...getTableProps()}>
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {loading ? (
+            <div className="loading-cont">
+              <Icon
+                icon="eos-icons:bubble-loading"
+                color="#202020"
+                width="50"
+                height="50"
+              />
+            </div>
+          ) : longitude != 0 ? (
+            <div className="no-data-cont">
+              <div className="no-data-info">
+                <Icon
+                  icon="icomoon-free:file-empty"
+                  color="#cacaca"
+                  width="50"
+                  height="50"
+                />
+                <div>no hay datos</div>
+              </div>
+            </div>
+          ) : (
+            <Tabla columns={columns} data={procs} />
+          )}
         </div>
-      )}
-    </div>
+      </div>
+      <ModalProc modalIsOpen={modalAdd} setIsOpen={setModalAdd} modo={modo} />
+    </>
   );
 }
 

@@ -1,0 +1,135 @@
+.modal-content {
+  width: 400px;
+}
+
+.titulo-modal {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-form {
+  display: block;
+  color: #202020;
+  label {
+    padding-left: 10px;
+    font-size: 15px;
+  }
+  .modal-input {
+    display: block;
+    input {
+      color: #202020;
+      background-color: white;
+      height: 30px;
+      width: 98%;
+      border: 1px solid #808080;
+      border-radius: 10px;
+      padding-left: 5px;
+      margin-bottom: 10px;
+      &:focus {
+        outline: 1px solid blue;
+      }
+    }
+  }
+  .modal-textarea {
+    display: block;
+    textarea {
+      padding: 5px;
+      color: #202020;
+      background-color: white;
+      height: 60px;
+      width: 97%;
+      border: 1px solid #808080;
+      border-radius: 10px;
+      resize: none;
+      margin-bottom: 10px;
+      &:focus {
+        outline: 1px solid blue;
+      }
+    }
+  }
+
+  .toggle-container {
+    label {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 31px;
+    }
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    span {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #2c3e50;
+      transition: 0.3s;
+      border-radius: 30px;
+    }
+
+    strong {
+      position: absolute;
+      left: 100%;
+      width: max-content;
+      height: 100%;
+      line-height: 30px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    span:before {
+      position: absolute;
+      content: "";
+      height: 25px;
+      width: 25px;
+      left: 3px;
+      bottom: 2.6px;
+      background-color: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + span {
+      background-color: #00c853;
+    }
+
+    input:checked + span:before {
+      transform: translateX(19px);
+    }
+  }
+
+  .toggle-desactivado {
+    filter: grayscale(100);
+    pointer-events: none;
+  }
+
+  .btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    button {
+      margin: 5px;
+      width: 100px;
+      height: 30px;
+      background-color: #404040;
+      background-color: #404040;
+      border: none;
+      border-radius: 5px;
+      transition: 0.5s ease;
+      &:hover {
+        // background-color: rgb(130, 132, 211);
+        background-color: rgb(0, 159, 0);
+      }
+      
+    }
+  }
+}
