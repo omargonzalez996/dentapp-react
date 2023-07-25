@@ -7,8 +7,10 @@ import ModalProc from "./ModalProc";
 function CrudProcedimientos() {
   const [loading, setLoading] = useState(false);
   const [procs, setProcs] = useState([]);
+  const [proc, setProc] = useState({});
   const [modalAdd, setModalAdd] = useState(false);
   const [modo, setModo] = useState("add");
+
   let longitude = 0;
 
   const FetchData = async () => {
@@ -80,7 +82,9 @@ function CrudProcedimientos() {
 
   const abrirModalEdit = (e, values) => {
     e.preventDefault();
-    setModo("add");
+    console.log(values);
+    setProc(values);
+    setModo("edit");
     setModalAdd(true);
   };
 
@@ -125,7 +129,12 @@ function CrudProcedimientos() {
           )}
         </div>
       </div>
-      <ModalProc modalIsOpen={modalAdd} setIsOpen={setModalAdd} modo={modo} />
+      <ModalProc
+        modalIsOpen={modalAdd}
+        setIsOpen={setModalAdd}
+        modo={modo}
+        values={proc}
+      />
     </>
   );
 }

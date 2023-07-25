@@ -13,18 +13,31 @@ const customStyles = {
   },
 };
 
-function ModalProc({ modalIsOpen, setIsOpen, modo }) {
+function ModalProc({ modalIsOpen, setIsOpen, modo, values }) {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [activo, setActivo] = useState(true);
+  const [activo, setActivo] = useState(1);
+  const [formReady, setFormReady] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
   }
 
   useEffect(() => {
-    console.log(activo);
-  }, [activo]);
+    if (nombre.length > 6 && descripcion.length > 10) {
+      setFormReady(true);
+    } else {
+      setFormReady(false);
+    }
+  }, [nombre, descripcion]);
+
+  useEffect(() => {
+    if (modo == "edit") {
+      setActivo(values.activo);
+      setNombre(values.nombre);
+      setDescripcion(values.descripcion);
+    }
+  }, []);
 
   return (
     <div>
@@ -66,7 +79,9 @@ function ModalProc({ modalIsOpen, setIsOpen, modo }) {
               <Toggle toggled={activo} setToggled={setActivo} />
             </div>
             <div className="btn-container">
-              <button>Agregar</button>
+              <button disabled={!formReady}>
+                {modo == "add" ? "Agregar" : modo == "edit" ? "Editar" : null}
+              </button>
             </div>
           </div>
         </div>
